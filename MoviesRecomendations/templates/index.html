@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_links %}
+<link type="text/css" href="{% static 'index/css/style.css' %}" rel="stylesheet">
+<link type="text/css" href="{% static 'index/css/search_bar.css' %}" rel="stylesheet">
+<link type="text/css" href="{% static 'movie_list/css/style_cards.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <section class="background">
+        <div class="content-wrapper">
+            <p class="content-title">Movie Recomendation System</p>
+            <a href="https://github.com/tlum1/movie_recommend_system/blob/main/%D0%9A%D0%B0%D0%BA_%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%D0%B5%D1%82_%D0%BA%D0%BE%D0%BB%D0%BB%D0%B0%D0%B1%D0%BE%D1%80%D0%B0%D1%82%D0%B8%D0%B2%D0%BD%D0%B0%D1%8F_%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F.ipynb"
+               target="_blank"
+               class=" content-subtitle btn">How it works?</a>
+        </div>
+    </section>
+
+    <section class="background">
+        <div class="content-wrapper">
+            <div id="app">
+                <form method="get" action="{% url 'search' %}">
+                    <div id="f-element">
+                        <div id="inp-cover"><input type="search" name="query"
+                                                   placeholder="Enter movie title ..." autocomplete="off">
+                        </div>
+                    </div>
+                    <button type="submit" class="shadow"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+            <div id="layer" title="Click the blue area to hide the form"></div>
+            <div id="init"></div>
+        </div>
+    </section>
+
+    <section class="background">
+        <div class="content-wrapper">
+            <p class="content-title">Popular Movies</p>
+            <div class="row">
+                {% for m in popular_movies%}
+                <div class="example-1 card">
+                    <div class="wrapper" style="  background: url({{ m.poster_link }}) no-repeat;">
+                        <div class="date">
+                            <span class="day">Rating</span>
+                            <span class="day">{{ m.rating }}</span>
+                        </div>
+                        <div class="data">
+                            <div class="content">
+                                <span class="author">{{ m.director }}</span>
+                                <h1 class="title">{{ m.name }}</h1>
+                                <p class="text">{{m.description|truncatewords:15}}</p>
+                                <a href="{{ m.get_absolute_url }}" class="button">Read more</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="background">
+        <div class="content-wrapper">
+            <p class="content-title">Movies like {{content_based_title}}</p>
+            <div class="row">
+                {% for m in content_based_movies%}
+                <div class="example-1 card">
+                    <div class="wrapper" style="  background: url({{ m.poster_link }}) no-repeat;">
+                        <div class="date">
+                            <span class="day">Rating</span>
+                            <span class="day">{{ m.rating }}</span>
+                        </div>
+                        <div class="data">
+                            <div class="content">
+                                <span class="author">{{ m.director }}</span>
+                                <h1 class="title">{{ m.name }}</h1>
+                                <p class="text">{{m.description|truncatewords:15}}</p>
+                                <a href="{{ m.get_absolute_url }}" class="button">Read more</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="background">
+        <div class="content-wrapper">
+            <p class="content-title">Item based filtration</p>
+            {%if item_based_movies%}
+            <div class="row">
+                {% for m in item_based_movies%}
+                <div class="example-1 card">
+                    <div class="wrapper" style="  background: url({{ m.poster_link }}) no-repeat;">
+                        <div class="date">
+                            <span class="day">Rating</span>
+                            <span class="day">{{ m.rating }}</span>
+                        </div>
+                        <div class="data">
+                            <div class="content">
+                                <span class="author">{{ m.director }}</span>
+                                <h1 class="title">{{ m.name }}</h1>
+                                <p class="text">{{m.description|truncatewords:15}}</p>
+                                <a href="{{ m.get_absolute_url }}" class="button">Read more</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="content-subtitle">You need to rate more movies to see recommendations</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <section class="background">
+        <div class="content-wrapper">
+            <p class="content-title">User based filtration</p>
+            {%if user_based_movies%}
+            <div class="row">
+                {% for m in user_based_movies%}
+                <div class="example-1 card">
+                    <div class="wrapper" style="  background: url({{ m.poster_link }}) no-repeat;">
+                        <div class="date">
+                            <span class="day">Rating</span>
+                            <span class="day">{{ m.rating }}</span>
+                        </div>
+                        <div class="data">
+                            <div class="content">
+                                <span class="author">{{ m.director }}</span>
+                                <h1 class="title">{{ m.name }}</h1>
+                                <p class="text">{{m.description|truncatewords:15}}</p>
+                                <a href="{{ m.get_absolute_url }}" class="button">Read more</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="content-subtitle">You need to rate more movies to see recommendations</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <section class="background">
+        <div class="content-wrapper">
+            <p class="content-title">Matrix factorization</p>
+            {%if svd_movies%}
+            <div class="row">
+                {% for m in svd_movies%}
+                <div class="example-1 card">
+                    <div class="wrapper" style="  background: url({{ m.poster_link }}) no-repeat;">
+                        <div class="date">
+                            <span class="day">Rating</span>
+                            <span class="day">{{ m.rating }}</span>
+                        </div>
+                        <div class="data">
+                            <div class="content">
+                                <span class="author">{{ m.director }}</span>
+                                <h1 class="title">{{ m.name }}</h1>
+                                <p class="text">{{m.description|truncatewords:15}}</p>
+                                <a href="{{ m.get_absolute_url }}" class="button">Read more</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="content-subtitle">You need to rate more movies to see recommendations</p>
+            {% endif %}
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+
+{% block js_links %}
+<script src="{% static 'index/js/parallax.js' %}"></script>
+<script src="{% static 'index/js/search_bar.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_links %}
+
+<link type="text/css" href="{% static 'movie_detail/css/card.css' %}" rel="stylesheet">
+<link type="text/css" href="{% static 'movie_detail/css/carousel.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class='card'>
+    <div class='card_left'>
+        <img src='{{ movie.poster_link }}'>
+    </div>
+    <div class='card_right'>
+        <h1>{{ movie.name }}</h1>
+        <div class='card_right__details'>
+            <ul>
+                <li>{{ movie.year }}</li>
+                <li>{{ movie.genre }}</li>
+                <li>{{ movie.rating }} / 10</li>
+            </ul>
+            <div class='card_right__rating'>
+                <div class='card_right__rating__stars'>
+                    <form id="rating_form" method="post" action="{% url 'set_rating' %}">
+                        {% csrf_token %}
+                        <fieldset class='rating submit'>
+                            <input id='star5' name='rating' type='radio' value='{{ movie.pk }}_5'>
+                            <label class='full' for='star5' title='5 stars'></label>
+                            <input id='star4half' name='rating' type='radio' value='{{ movie.pk }}_4.5'>
+                            <label class='half' for='star4half' title='4.5 stars'></label>
+                            <input id='star4' name='rating' type='radio' value='{{ movie.pk }}_4'>
+                            <label class='full' for='star4' title='4 stars'></label>
+                            <input id='star3half' name='rating' type='radio' value='{{ movie.pk }}_3.5'>
+                            <label class='half' for='star3half' title='3.5 stars'></label>
+                            <input id='star3' name='rating' type='radio' value='{{ movie.pk }}_3'>
+                            <label class='full' for='star3' title='3 stars'></label>
+                            <input id='star2half' name='rating' type='radio' value='{{ movie.pk }}_2.5'>
+                            <label class='half' for='star2half' title='2.5 stars'></label>
+                            <input id='star2' name='rating' type='radio' value='{{ movie.pk }}_2'>
+                            <label class='full' for='star2' title='2 stars'></label>
+                            <input id='star1half' name='rating' type='radio' value='{{ movie.pk }}_1.5'>
+                            <label class='half' for='star1half' title='1.5 stars'></label>
+                            <input id='star1' name='rating' type='radio' value='{{ movie.pk }}_1'>
+                            <label class='full' for='star1' title='1 star'></label>
+                            <input id='starhalf' name='rating' type='radio' value='{{ movie.pk }}_0.5'>
+                            <label class='half' for='starhalf' title='0.5 stars'></label>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div class='card_right__review'>
+                <p><span class="font-weight: bold">Director:</span> {{ movie.director }}</p>
+            </div>
+            <div class='card_right__review'>
+                <p><span class="font-weight: bold">Cast:</span> {{ movie.cast|truncatechars:40 }}</p>
+            </div>
+            <div class='card_right__review'>
+                <p>{{ movie.description }}</p>
+            </div>
+            <div class='card_right__button'>
+                <a href='/'>Back</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div style="text-align: center; color:#fff; font-family: 'Montserrat', sans-serif;">
+    <h1>Similar movies</h1>
+</div>
+<div class="carousel-container">
+    <div class="carousel-card" id="far-left">
+        <img class="carousel-icon" src="{{ recommend_movies.0.poster_link }}" alt="">
+        <h3 class="carousel-title">{{ recommend_movies.0.name }}</h3>
+    </div>
+    <div class="carousel-card" id="left">
+        <img class="carousel-icon" src="{{ recommend_movies.1.poster_link }}" alt="">
+        <h3 class="carousel-title">{{ recommend_movies.1.name }}</h3>
+    </div>
+    <div class="carousel-card" id="center">
+        <img class="carousel-icon" src="{{ recommend_movies.2.poster_link }}" alt="">
+        <h3 class="carousel-title">{{ recommend_movies.2.name }}</h3>
+    </div>
+    <div class="carousel-card" id="right">
+        <img class="carousel-icon" src="{{ recommend_movies.3.poster_link }}" alt="">
+        <h3 class="carousel-title">{{ recommend_movies.3.name }}</h3>
+    </div>
+    <div class="carousel-card" id="far-right">
+        <img class="carousel-icon" src="{{ recommend_movies.4.poster_link }}" alt="">
+        <h3 class="carousel-title">{{ recommend_movies.4.name }}</h3>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block js_links %}
+
+<script src="{% static 'movie_detail/js/index.js' %}"></script>
+<script src="{% static 'movie_detail/js/carousel.js' %}"></script>
+
+{% endblock %}
