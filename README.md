@@ -5,6 +5,13 @@
 ## Презентация
 https://docs.google.com/presentation/d/1MHv-TOUGioKv8FxK917t_CBomq9DshRrVdGwsfVBleE/edit?usp=sharing
 
+# Какие рекомендательные системы были использованы
+- Content based
+- User based
+- Popularity based
+- User based фильтрация на основе SVD-разложения матрицы отзывов
+- Content based фильтрация на основе SVD-разложения матрицы отзывов
+
 # Инсталяция:
 
 1. Склонировать репозиторий
